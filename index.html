@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>一束阳光 · 研读笔记</title>
+
+  <!-- 🌞 标签栏发光可爱太阳图标 (SVG Data-URI) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='24' fill='%23f59e0b'/><g stroke='%23f59e0b' stroke-width='6' stroke-linecap='round'><line x1='50' y1='10' x2='50' y2='20'/><line x1='50' y1='80' x2='50' y2='90'/><line x1='10' y1='50' x2='20' y2='50'/><line x1='80' y1='50' x2='90' y2='50'/><line x1='22' y1='22' x2='29' y2='29'/><line x1='71' y1='71' x2='78' y2='78'/><line x1='22' y1='78' x2='29' y2='71'/><line x1='71' y1='29' x2='78' y2='22'/></g><circle cx='42' cy='46' r='3.5' fill='%23ffffff'/><circle cx='58' cy='46' r='3.5' fill='%23ffffff'/><path d='M 40 56 Q 50 65 60 56' stroke='%23ffffff' stroke-width='3.5' fill='none' stroke-linecap='round'/></svg>">
+
+  <style>
+    :root {
+      --primary: #f59e0b;
+      --primary-hover: #d97706;
+      --primary-dark: #b45309;
+      --bg-gradient: radial-gradient(circle at 10% 20%, #fffdf0 0%, #fef3c7 45%, #fde68a 100%);
+      --glass-bg: rgba(255, 255, 255, 0.72);
+      --glass-border: rgba(255, 255, 255, 0.85);
+      --glass-shadow: 0 16px 36px -6px rgba(245, 158, 11, 0.16), 0 4px 12px rgba(0, 0, 0, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.95);
+      --text-main: #1f2937;
+      --text-sub: #6b7280;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(245, 158, 11, 0.35); border-radius: 6px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(245, 158, 11, 0.65); }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      color: var(--text-main);
+      padding: 16px 14px 60px;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    /* 💎 3D 顶部品牌 Header 导航条 */
+    .top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 18px;
+      margin-bottom: 18px;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-icon {
+      font-size: 28px;
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 14px;
+      padding: 5px 9px;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25), inset 0 1px 1px #fff;
+      line-height: 1;
+      transform: perspective(300px) translateZ(5px);
+    }
+    .brand-title { font-size: 20px; font-weight: 800; color: #1f2937; letter-spacing: -0.2px; }
+    .brand-subtitle { font-size: 13px; color: var(--primary); font-weight: 700; margin-left: 4px; }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sync-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: #065f46;
+      background: rgba(236, 253, 245, 0.85);
+      border: 1px solid #a7f3d0;
+      padding: 5px 13px;
+      border-radius: 18px;
+      font-weight: 700;
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.8);
+    }
+
+    /* 💎 3D 浮雕搜索框 */
+    .search-box-wrap {
+      max-width: 860px;
+      margin: 0 auto 18px;
+      position: relative;
+    }
+    .search-input {
+      width: 100%;
+      padding: 13px 20px 13px 48px;
+      border: 1.5px solid rgba(255, 255, 255, 0.9);
+      border-radius: 30px;
+      font-size: 14.5px;
+      background: rgba(255, 255, 255, 0.78);
+      outline: none;
+      box-shadow: 0 8px 24px rgba(245, 158, 11, 0.12), inset 0 2px 4px rgba(0, 0, 0, 0.02);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .search-input:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 10px 28px rgba(245, 158, 11, 0.22), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+      transform: translateY(-1px);
+    }
+    .search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 17px;
+      color: #f59e0b;
+    }
+
+    /* 💎 主研读工作区面板（3D 毛玻璃拟态） */
+    .main-panel {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 20px 22px;
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 16px;
+      margin-bottom: 18px;
+      border-bottom: 1px dashed rgba(245, 158, 11, 0.35);
+    }
+
+    .category-tabs-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* 💎 3D 立体拟物按钮 */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 15px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      background: linear-gradient(145deg, #ffffff 0%, #fef3c7 100%);
+      color: var(--text-main);
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+      outline: none;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04), inset 0 1px 1px #fff;
+    }
+    .btn:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(245, 158, 11, 0.18), inset 0 1px 1px #fff;
+    }
+    .btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+    }
+
+    .btn-gold {
+      background: linear-gradient(145deg, #f59e0b 0%, #d97706 100%);
+      color: #ffffff;
+      border: 1px solid rgba(253, 230, 138, 0.6);
+      box-shadow: 0 6px 16px rgba(245, 158, 11, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    }
+    .btn-gold:hover {
+      background: linear-gradient(145deg, #fbbf24 0%, #b45309 100%);
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.42), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+    }
+
+    .tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      background: rgba(254, 243, 199, 0.6);
+      color: #92400e;
+      transition: all 0.18s;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02), inset 0 1px 1px #fff;
+    }
+    .tab-btn:hover { background: #fde68a; transform: translateY(-1px); }
+    .tab-btn.active {
+      background: linear-gradient(145deg, #f59e0b 0%, #d97706 100%);
+      color: #ffffff;
+      border-color: rgba(253, 230, 138, 0.8);
+      box-shadow: 0 6px 16px rgba(245, 158, 11, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.45);
+    }
+
+    .tab-edit-dot {
+      font-size: 11px;
+      opacity: 0.7;
+      padding: 2px;
+      margin-left: 3px;
+    }
+    .tab-edit-dot:hover { opacity: 1; transform: scale(1.2); }
+
+    .action-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* 💎 3D 书卷手风琴与笔记项 */
+    .book-accordion {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .book-card {
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(253, 230, 138, 0.9);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(245, 158, 11, 0.08), inset 0 1px 1px #fff;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .book-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 10px 24px rgba(245, 158, 11, 0.16), inset 0 1px 1px #fff;
+    }
+
+    .book-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 13px 18px;
+      background: linear-gradient(145deg, rgba(254, 243, 199, 0.55) 0%, rgba(253, 230, 138, 0.35) 100%);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .book-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15.5px;
+      font-weight: 800;
+      color: #78350f;
+    }
+
+    .mini-icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 1px solid #fde68a;
+      font-size: 12px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      transition: all 0.15s;
+    }
+    .mini-icon-btn:hover { background: #fef3c7; transform: scale(1.15); }
+
+    .arrow-icon {
+      font-size: 12px;
+      color: var(--primary);
+      transition: transform 0.22s ease;
+    }
+    .arrow-icon.collapsed { transform: rotate(-90deg); }
+
+    .notes-list {
+      padding: 8px 12px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .notes-list.hidden { display: none; }
+
+    .note-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 15px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(253, 230, 138, 0.5);
+      cursor: pointer;
+      transition: all 0.18s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    }
+    .note-item:hover {
+      background: #fffbeb;
+      border-color: var(--primary);
+      transform: translateX(3px) translateY(-1px);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.12);
+    }
+
+    .note-title-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #1f2937;
+      flex: 1;
+    }
+
+    .note-meta-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    /* 💎 3D 毛玻璃弹窗体系 */
+    .modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20000;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+    }
+    .modal-backdrop.active { opacity: 1; pointer-events: auto; }
+
+    .modal-window {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      width: 100%;
+      max-width: 740px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.25), inset 0 1px 1px #fff;
+      overflow: hidden;
+      animation: modal3D 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modal3D {
+      from { opacity: 0; transform: scale(0.92) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 22px;
+      background: linear-gradient(145deg, #fffbeb 0%, #fef3c7 100%);
+      border-bottom: 1px solid rgba(253, 230, 138, 0.8);
+    }
+    .modal-title { font-size: 17px; font-weight: 800; color: #78350f; }
+
+    .modal-body {
+      padding: 20px 22px;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-label { font-size: 13px; font-weight: 700; color: #374151; }
+    .form-input, .form-select, .form-textarea {
+      padding: 10px 14px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 14px;
+      outline: none;
+      font-family: inherit;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+      transition: all 0.18s;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3.5px rgba(245, 158, 11, 0.18), inset 0 1px 2px rgba(0, 0, 0, 0.02);
+      background: #ffffff;
+    }
+    .form-textarea { min-height: 280px; line-height: 1.8; resize: vertical; }
+
+    .modal-footer {
+      padding: 14px 22px;
+      border-top: 1px solid #f3f4f6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fafafa;
+    }
+
+    /* 💎 纯净全屏沉浸阅读器（独立最高层级置顶） */
+    .fullscreen-reader {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      height: 100dvh;
+      background: #fffdf7;
+      z-index: 50000;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .fullscreen-reader.active { display: flex; }
+
+    .fs-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 24px calc(12px + env(safe-area-inset-top));
+      background: rgba(255, 253, 247, 0.95);
+      border-bottom: 1px dashed rgba(245, 158, 11, 0.35);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      flex-shrink: 0;
+      position: relative;
+      z-index: 50001;
+      pointer-events: auto !important;
+    }
+
+    .fs-content-container {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 26px 22px calc(40px + env(safe-area-inset-bottom));
+      position: relative;
+      z-index: 50000;
+    }
+
+    .fs-article-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .fs-title {
+      font-size: 27px;
+      font-weight: 800;
+      color: #111827;
+      line-height: 1.4;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #fde68a;
+    }
+
+    .fs-meta {
+      font-size: 13.5px;
+      color: var(--text-sub);
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .fs-text-body {
+      font-size: 17.5px;
+      line-height: 2.0;
+      letter-spacing: 0.5px;
+      color: #374151;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .fs-text-body.font-small { font-size: 15px; }
+    .fs-text-body.font-normal { font-size: 17.5px; }
+    .fs-text-body.font-large { font-size: 21px; }
+
+    /* 💎 3D Toast 浮窗 */
+    .toast-msg {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: rgba(31, 41, 55, 0.94);
+      color: #fff;
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-size: 13.5px;
+      font-weight: 700;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      z-index: 60000;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .toast-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+
+  <div id="toastMsg" class="toast-msg">✓ 操作成功</div>
+
+  <div class="container">
+    <!-- 顶部 3D 品牌 Header 导航 -->
+    <header class="top-header">
+      <div class="brand-logo">
+        <div class="brand-icon">☀️</div>
+        <div>
+          <span class="brand-title">一束阳光</span>
+          <span class="brand-subtitle">研读笔记</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <span id="syncStatus" class="sync-pill">☁️ R2 已同步</span>
+        <button id="authBtn" class="btn" onclick="openAuthModal()">🔐 登录管理</button>
+      </div>
+    </header>
+
+    <!-- 极速搜索框 -->
+    <div class="search-box-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" class="search-input" placeholder="极速搜索笔记标题或研读正文关键字..." oninput="handleSearch()" />
+    </div>
+
+    <!-- 主研读工作区 -->
+    <div class="main-panel">
+      <div class="toolbar">
+        <div class="category-tabs-wrap" id="categoryTabsContainer"></div>
+
+        <div class="action-group" id="adminActionGroup">
+          <button class="btn" id="addCatBtn" style="display:none;" onclick="openCategoryModal()">➕ 新增模块</button>
+          <button class="btn btn-gold" id="addBookBtn" style="display:none;" onclick="openBookModal()">+ 新增书卷</button>
+          <button class="btn btn-gold" id="addNoteBtn" style="display:none;" onclick="openNoteModal()">+ 新建记录</button>
+        </div>
+      </div>
+
+      <div id="bookAccordion" class="book-accordion"></div>
+    </div>
+  </div>
+
+  <!-- ================= 纯净全屏沉浸阅读器 ================= -->
+  <div id="fullscreenReader" class="fullscreen-reader">
+    <div class="fs-header-bar">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="font-size:20px;">☀️</span>
+        <span style="font-weight:800; color:#78350f; font-size:15px;">一束阳光 · 沉浸研读</span>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="display:flex; background:rgba(254, 243, 199, 0.85); border-radius:12px; padding:2px; border:1px solid #fde68a;">
+          <button class="btn" style="padding:2px 8px; font-size:11px;" onclick="setFontSize('small')">A-</button>
+          <button class="btn" style="padding:2px 8px; font-size:11px;" onclick="setFontSize('normal')">标准</button>
+          <button class="btn" style="padding:2px 8px; font-size:11px;" onclick="setFontSize('large')">A+</button>
+        </div>
+        <button class="btn btn-gold" id="fsEditBtn" onclick="editFromFullscreen()">✏️ 编辑</button>
+        <button class="btn" id="fsExitBtn" onclick="exitFullscreen()">✕ 退出全屏</button>
+      </div>
+    </div>
+
+    <div class="fs-content-container">
+      <div class="fs-article-wrap">
+        <div class="fs-title" id="fsTitle"></div>
+        <div class="fs-meta">
+          <span id="fsBookTag">📖 马太福音</span>
+          <span id="fsDateTag">2026/8/1</span>
+        </div>
+        <div class="fs-text-body font-normal" id="fsContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 弹窗 1：模块类别管理 ================= -->
+  <div id="categoryModalBackdrop" class="modal-backdrop">
+    <div class="modal-window" style="max-width: 440px;">
+      <div class="modal-header">
+        <span class="modal-title" id="categoryModalTitle">新增分类模块</span>
+        <button class="mini-icon-btn" onclick="closeCategoryModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="editCategoryId" />
+        <div class="form-group">
+          <label class="form-label">模块图标 (Emoji 或字符)</label>
+          <input type="text" id="categoryIconInput" class="form-input" placeholder="例如：📜、📖、💡、🌿" maxlength="4" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">模块名称</label>
+          <input type="text" id="categoryNameInput" class="form-input" placeholder="例如：旧约、新约、主题研读" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" style="background:#fee2e2; color:#b91c1c; display:none;" id="deleteCategoryBtn" onclick="deleteCurrentCategory()">🗑️ 删除模块</button>
+        <div style="display:flex; gap:8px; margin-left:auto;">
+          <button class="btn" onclick="closeCategoryModal()">取消</button>
+          <button class="btn btn-gold" onclick="saveCategory()">保存模块</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 弹窗 2：书卷管理 ================= -->
+  <div id="bookModalBackdrop" class="modal-backdrop">
+    <div class="modal-window" style="max-width: 440px;">
+      <div class="modal-header">
+        <span class="modal-title" id="bookModalTitle">新增书卷</span>
+        <button class="mini-icon-btn" onclick="closeBookModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="editBookId" />
+        <div class="form-group">
+          <label class="form-label">所属模块分类</label>
+          <select id="bookCategorySelect" class="form-select"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">书卷名称</label>
+          <input type="text" id="bookNameInput" class="form-input" placeholder="例如：马太福音、创世记" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" style="background:#fee2e2; color:#b91c1c; display:none;" id="deleteBookBtn" onclick="deleteCurrentBook()">🗑️ 删除书卷</button>
+        <div style="display:flex; gap:8px; margin-left:auto;">
+          <button class="btn" onclick="closeBookModal()">取消</button>
+          <button class="btn btn-gold" onclick="saveBook()">保存书卷</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 弹窗 3：新建/编辑研读笔记（两级联动 + 就地快速建卷） ================= -->
+  <div id="noteModalBackdrop" class="modal-backdrop">
+    <div class="modal-window">
+      <div class="modal-header">
+        <span class="modal-title" id="noteModalTitle">新建研读记录</span>
+        <button class="mini-icon-btn" onclick="closeNoteModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="editNoteId" />
+        
+        <!-- 两级联动选择：所属模块 + 所属书卷 + 日期 -->
+        <div style="display:grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 10px;">
+          <div class="form-group">
+            <label class="form-label">1. 所属模块</label>
+            <select id="noteCategorySelect" class="form-select" onchange="handleNoteCategoryChange()"></select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">2. 所属书卷</label>
+            <select id="noteBookSelect" class="form-select"></select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">记录日期</label>
+            <input type="text" id="noteDateInput" class="form-input" />
+          </div>
+        </div>
+
+        <!-- 就地快捷新建书卷辅助栏 -->
+        <div id="quickNewBookWrap" style="background:rgba(254, 243, 199, 0.45); border:1px dashed #fde68a; border-radius:12px; padding:8px 12px; display:flex; align-items:center; gap:8px; font-size:12.5px;">
+          <span>💡 没找到书卷？在此就地直接新建：</span>
+          <input type="text" id="quickNewBookInput" class="form-input" placeholder="输入新书卷名（如：创世记）" style="padding:4px 8px; font-size:12.5px; flex:1;" />
+          <button type="button" class="btn btn-gold" style="padding:4px 10px; font-size:12px;" onclick="quickAddBookInModal()">立即建卷</button>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">研读标题</label>
+          <input type="text" id="noteTitleInput" class="form-input" placeholder="例如：太01 从耶稣的家谱看恩典君王" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">研读正文 / 纲要心得</label>
+          <textarea id="noteContentInput" class="form-textarea" placeholder="在此输入研读正文、经文释义与心得体会..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" style="background:#fee2e2; color:#b91c1c; display:none;" id="deleteNoteBtn" onclick="deleteCurrentNote()">🗑️ 删除记录</button>
+        <div style="display:flex; gap:8px; margin-left:auto;">
+          <button class="btn" onclick="closeNoteModal()">取消</button>
+          <button class="btn btn-gold" onclick="saveNote()">保存并同步 R2</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 弹窗 4：管理员控制中心 ================= -->
+  <div id="authModalBackdrop" class="modal-backdrop">
+    <div class="modal-window" style="max-width: 440px;">
+      <div class="modal-header">
+        <span class="modal-title">🔐 管理控制中心</span>
+        <button class="mini-icon-btn" onclick="closeAuthModal()">✕</button>
+      </div>
+
+      <div class="modal-body" id="authLoginBody">
+        <div class="form-group">
+          <label class="form-label">管理员密码</label>
+          <input type="password" id="loginPwdInput" class="form-input" placeholder="输入管理密码..." onkeydown="if(event.key==='Enter') submitLogin();" />
+        </div>
+      </div>
+
+      <div class="modal-body" id="authManageBody" style="display:none;">
+        <div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:12px; padding:10px; font-size:13px; color:#065f46; display:flex; justify-content:space-between; align-items:center;">
+          <span>✓ 已成功解锁管理员权限</span>
+          <button class="btn" style="padding:3px 8px; font-size:11px; color:#ef4444;" onclick="logoutAdmin()">退出登录</button>
+        </div>
+
+        <div style="border-top:1px dashed #e5e7eb; margin-top:8px; padding-top:10px;">
+          <span style="font-size:13.5px; font-weight:800; color:#374151;">⚙️ 前台直接修改管理密码</span>
+          <div class="form-group" style="margin-top:8px;">
+            <label class="form-label">当前原密码</label>
+            <input type="password" id="oldPwdInput" class="form-input" placeholder="输入旧密码" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">新密码（不少于 4 位）</label>
+            <input type="password" id="newPwdInput" class="form-input" placeholder="输入新密码" />
+          </div>
+          <button class="btn btn-gold" style="width:100%; margin-top:6px; justify-content:center;" onclick="submitChangePassword()">确认修改并持久化存入 R2</button>
+        </div>
+      </div>
+
+      <div class="modal-footer" id="authLoginFooter">
+        <button class="btn" onclick="closeAuthModal()">取消</button>
+        <button class="btn btn-gold" onclick="submitLogin()">登录解锁</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "SUN_YANDU_DATA_3D_V4";
+    const AUTH_KEY = "SUN_YANDU_TOKEN";
+
+    let adminToken = sessionStorage.getItem(AUTH_KEY) || "";
+    let activeCategoryId = "cat_new";
+    let activeReadingNoteId = null;
+
+    const FALLBACK_CATEGORIES = [
+      { id: "cat_old", name: "旧约", icon: "📜" },
+      { id: "cat_new", name: "新约", icon: "📖" },
+      { id: "cat_topic", name: "主题", icon: "💡" }
+    ];
+
+    const DEFAULT_DATA = {
+      categories: FALLBACK_CATEGORIES,
+      books: [
+        { id: "b_matthew", name: "马太福音", categoryId: "cat_new", collapsed: false }
+      ],
+      notes: [
+        { id: "n_1", bookId: "b_matthew", title: "太07 三一神见证圣子为我们受洗尽诸般的义", date: "2026/8/1", content: "【经文要义】\n三一神在约旦河边同台见证耶稣基督的顺服与尽义。\n\n1. 圣子的顺服受洗；\n2. 圣灵的降临如鸽；\n3. 圣父的喜悦见证。" },
+        { id: "n_2", bookId: "b_matthew", title: "太09 天国的君王来到黑暗死荫之地传道 X S", date: "2026/8/1", content: "光照在黑暗里，黑暗却不接受光。天国君王的服事充满怜悯与医治。" },
+        { id: "n_3", bookId: "b_matthew", title: "太08 旷野中得胜试探的君王 END", date: "2026/8/1", content: "主耶稣以神的话语击退魔鬼的一切试探。" },
+        { id: "n_4", bookId: "b_matthew", title: "太06 要悔改信靠那位执行审判与拯救的耶稣", date: "2026/8/1", content: "施洗约翰的呼喊与天国临近的警告。" },
+        { id: "n_5", bookId: "b_matthew", title: "太05 在失败与苦难中成就救赎的耶稣", date: "2026/8/1", content: "神的主权掌管万有，即便在患难中祂的旨意依然成就。" },
+        { id: "n_6", bookId: "b_matthew", title: "太02 弥赛亚君王的真实身份", date: "2026/8/1", content: "大卫的子孙，亚伯拉罕的后裔，应许的拯救者。" },
+        { id: "n_7", bookId: "b_matthew", title: "太03 以顺服之信经历以马内利", date: "2026/8/1", content: "约瑟顺服主的使者，显明以马内利的同在。" },
+        { id: "n_8", bookId: "b_matthew", title: "太04 被神引导的外邦博士们朝拜荣耀君王", date: "2026/8/1", content: "东方博士献上黄金、乳香、没药，朝拜真正的万王之王。" },
+        { id: "n_9", bookId: "b_matthew", title: "太1 从耶稣的家谱看恩典君王", date: "2026/8/1", content: "家谱中显明神不离不弃的恩典与信实。" }
+      ]
+    };
+
+    function sanitizeData(raw) {
+      if (!raw || typeof raw !== "object") raw = {};
+      let categories = (Array.isArray(raw.categories) && raw.categories.length > 0) ? raw.categories : FALLBACK_CATEGORIES;
+      let books = Array.isArray(raw.books) ? raw.books : DEFAULT_DATA.books;
+      books.forEach(b => {
+        if (!b.categoryId) {
+          b.categoryId = (b.category === 'old' ? 'cat_old' : b.category === 'topic' ? 'cat_topic' : 'cat_new');
+        }
+      });
+      let notes = Array.isArray(raw.notes) ? raw.notes : DEFAULT_DATA.notes;
+      return { categories, books, notes };
+    }
+
+    let AppData = loadLocalData();
+
+    function loadLocalData() {
+      try {
+        const cache = localStorage.getItem(STORAGE_KEY);
+        if (cache) return sanitizeData(JSON.parse(cache));
+      } catch (_) {}
+      return sanitizeData(DEFAULT_DATA);
+    }
+
+    function saveLocalData(data) {
+      AppData = sanitizeData(data);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(AppData));
+    }
+
+    /* --- R2 毫秒级直传同步中枢 --- */
+    async function syncDataToR2() {
+      setSyncStatus("⏳ 直传中...");
+      try {
+        const res = await fetch("/api/yandu/save", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "x-admin-auth": adminToken },
+          body: JSON.stringify({
+            categories: AppData.categories,
+            books: AppData.books,
+            notes: AppData.notes
+          })
+        });
+
+        if (res.status === 401) {
+          setSyncStatus("⚠️ 请先登录管理");
+          return;
+        }
+
+        const data = await res.json();
+        if (data.success) {
+          setSyncStatus("☁️ R2 已同步");
+        } else {
+          setSyncStatus("⚠️ 同步失败");
+        }
+      } catch (_) {
+        setSyncStatus("☁️ 本地已存 (离线)");
+      }
+    }
+
+    async function initR2Sync() {
+      setSyncStatus("⏳ 连接 R2...");
+      try {
+        const res = await fetch("/api/yandu/data");
+        const resData = await res.json();
+
+        if (resData.success) {
+          if (resData.exists && resData.data && resData.data.books) {
+            saveLocalData(resData.data);
+            setSyncStatus("☁️ R2 已同步");
+            renderAll();
+          } else {
+            await syncDataToR2();
+          }
+        }
+      } catch (_) {
+        setSyncStatus("☁️ 离线模式");
+      }
+    }
+
+    function setSyncStatus(t) {
+      document.getElementById("syncStatus").innerText = t;
+    }
+
+    /* --- 界面统一渲染驱动 --- */
+    function renderAll() {
+      renderCategoryTabs();
+      renderAccordion();
+      updateAdminUI();
+    }
+
+    function renderCategoryTabs() {
+      const container = document.getElementById("categoryTabsContainer");
+      container.innerHTML = "";
+
+      if (!AppData.categories || AppData.categories.length === 0) {
+        AppData.categories = FALLBACK_CATEGORIES;
+      }
+
+      if (!AppData.categories.some(c => c.id === activeCategoryId)) {
+        activeCategoryId = AppData.categories[0].id;
+      }
+
+      AppData.categories.forEach(cat => {
+        const btn = document.createElement("button");
+        const isActive = (cat.id === activeCategoryId);
+        btn.className = `tab-btn ${isActive ? 'active' : ''}`;
+        
+        btn.innerHTML = `
+          <span>${cat.icon || '📖'} ${escapeHtml(cat.name)}</span>
+          ${adminToken ? `<span class="tab-edit-dot" onclick="event.stopPropagation(); editCategory('${cat.id}')" title="编辑/删除模块">✏️</span>` : ''}
+        `;
+        btn.onclick = () => switchCategory(cat.id);
+        container.appendChild(btn);
+      });
+    }
+
+    function switchCategory(catId) {
+      activeCategoryId = catId;
+      renderCategoryTabs();
+      renderAccordion();
+    }
+
+    function renderAccordion(searchKeyword = "") {
+      const container = document.getElementById("bookAccordion");
+      container.innerHTML = "";
+
+      const filteredBooks = (AppData.books || []).filter(b => b.categoryId === activeCategoryId);
+
+      if (filteredBooks.length === 0 && !searchKeyword) {
+        container.innerHTML = `<div style="text-align:center; padding:36px 0; color:#9ca3af; font-size:13.5px;">当前模块下暂无书卷，点击右上角「+ 新增书卷」或「+ 新建记录」创建。</div>`;
+        return;
+      }
+
+      const booksToRender = searchKeyword ? (AppData.books || []) : filteredBooks;
+
+      booksToRender.forEach(book => {
+        let notes = (AppData.notes || []).filter(n => n.bookId === book.id);
+
+        if (searchKeyword) {
+          const kw = searchKeyword.toLowerCase();
+          notes = notes.filter(n => n.title.toLowerCase().includes(kw) || (n.content && n.content.toLowerCase().includes(kw)));
+          if (notes.length === 0 && !book.name.toLowerCase().includes(kw)) return;
+        }
+
+        const card = document.createElement("div");
+        card.className = "book-card";
+        const isCollapsed = book.collapsed && !searchKeyword;
+
+        card.innerHTML = `
+          <div class="book-header" onclick="toggleBookCollapse('${book.id}')">
+            <div class="book-title-wrap">
+              <span>📖 ${escapeHtml(book.name)}</span>
+              ${adminToken ? `<span class="mini-icon-btn" onclick="event.stopPropagation(); editBook('${book.id}')" title="编辑/删除书卷">✏️</span>` : ''}
+            </div>
+            <span class="arrow-icon ${isCollapsed ? 'collapsed' : ''}">▼</span>
+          </div>
+          <div class="notes-list ${isCollapsed ? 'hidden' : ''}" id="notes_${book.id}">
+            ${notes.length === 0 ? '<div style="padding:10px; color:#9ca3af; font-size:13px; text-align:center;">暂无记录</div>' : ''}
+          </div>
+        `;
+
+        const listEl = card.querySelector(`#notes_${book.id}`);
+
+        notes.forEach(note => {
+          const item = document.createElement("div");
+          item.className = "note-item";
+          item.onclick = () => openFullscreen(note.id);
+
+          item.innerHTML = `
+            <div class="note-title-left">
+              <span>📄</span>
+              <span>${escapeHtml(note.title)}</span>
+              ${adminToken ? `<span class="mini-icon-btn" onclick="event.stopPropagation(); editNote('${note.id}')" title="编辑/删除笔记">✏️</span>` : ''}
+            </div>
+            <div class="note-meta-right">
+              <span>${note.date || '2026/8/1'}</span>
+            </div>
+          `;
+          listEl.appendChild(item);
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    function toggleBookCollapse(bookId) {
+      const b = (AppData.books || []).find(x => x.id === bookId);
+      if (b) {
+        b.collapsed = !b.collapsed;
+        saveLocalData(AppData);
+        renderAccordion(document.getElementById("searchInput").value.trim());
+      }
+    }
+
+    function handleSearch() {
+      const kw = document.getElementById("searchInput").value.trim();
+      renderAccordion(kw);
+    }
+
+    /* --- 纯净全屏沉浸阅读（修复退出按钮与层级穿透） --- */
+    function openFullscreen(noteId) {
+      const note = (AppData.notes || []).find(n => n.id === noteId);
+      if (!note) return;
+
+      activeReadingNoteId = noteId;
+      const book = (AppData.books || []).find(b => b.id === note.bookId);
+
+      document.getElementById("fsTitle").innerText = note.title;
+      document.getElementById("fsBookTag").innerText = `📖 ${book ? book.name : '研读'}`;
+      document.getElementById("fsDateTag").innerText = note.date || '2026/8/1';
+      document.getElementById("fsContent").innerText = note.content || "（暂无正文内容）";
+
+      document.getElementById("fsEditBtn").style.display = adminToken ? "inline-flex" : "none";
+      document.getElementById("fullscreenReader").classList.add("active");
+    }
+
+    function exitFullscreen() {
+      document.getElementById("fullscreenReader").classList.remove("active");
+    }
+
+    function setFontSize(size) {
+      const el = document.getElementById("fsContent");
+      el.classList.remove("font-small", "font-normal", "font-large");
+      el.classList.add(`font-${size}`);
+    }
+
+    function editFromFullscreen() {
+      exitFullscreen();
+      if (activeReadingNoteId) editNote(activeReadingNoteId);
+    }
+
+    /* --- 模块分类增删改 --- */
+    function openCategoryModal(catId = null) {
+      const modal = document.getElementById("categoryModalBackdrop");
+      const delBtn = document.getElementById("deleteCategoryBtn");
+
+      if (catId) {
+        const c = AppData.categories.find(x => x.id === catId);
+        document.getElementById("editCategoryId").value = c.id;
+        document.getElementById("categoryIconInput").value = c.icon || "📖";
+        document.getElementById("categoryNameInput").value = c.name;
+        document.getElementById("categoryModalTitle").innerText = "编辑分类模块";
+        delBtn.style.display = "inline-flex";
+      } else {
+        document.getElementById("editCategoryId").value = "";
+        document.getElementById("categoryIconInput").value = "📖";
+        document.getElementById("categoryNameInput").value = "";
+        document.getElementById("categoryModalTitle").innerText = "新增分类模块";
+        delBtn.style.display = "none";
+      }
+      modal.classList.add("active");
+    }
+
+    function closeCategoryModal() {
+      document.getElementById("categoryModalBackdrop").classList.remove("active");
+    }
+
+    function editCategory(id) { openCategoryModal(id); }
+
+    function saveCategory() {
+      const id = document.getElementById("editCategoryId").value;
+      const icon = document.getElementById("categoryIconInput").value.trim() || "📖";
+      const name = document.getElementById("categoryNameInput").value.trim();
+
+      if (!name) { showToast("请输入模块名称", true); return; }
+
+      if (id) {
+        const cat = AppData.categories.find(c => c.id === id);
+        if (cat) { cat.name = name; cat.icon = icon; }
+      } else {
+        const newId = "cat_" + Date.now();
+        AppData.categories.push({ id: newId, name, icon });
+        activeCategoryId = newId;
+      }
+
+      saveLocalData(AppData);
+      syncDataToR2();
+      closeCategoryModal();
+      renderAll();
+      showToast("✓ 模块已保存");
+    }
+
+    function deleteCurrentCategory() {
+      const id = document.getElementById("editCategoryId").value;
+      if (!id) return;
+
+      const cat = AppData.categories.find(c => c.id === id);
+      const bookCount = AppData.books.filter(b => b.categoryId === id).length;
+
+      if (!confirm(`⚠️ 确定要彻底删除模块【${cat ? cat.name : ''}】吗？\n\n该模块下共有 ${bookCount} 本书卷，删除将连同名下所有研读笔记一并彻底清空！`)) return;
+
+      const booksToDelete = AppData.books.filter(b => b.categoryId === id).map(b => b.id);
+      AppData.categories = AppData.categories.filter(c => c.id !== id);
+      AppData.books = AppData.books.filter(b => b.categoryId !== id);
+      AppData.notes = AppData.notes.filter(n => !booksToDelete.includes(n.bookId));
+
+      if (activeCategoryId === id) {
+        activeCategoryId = AppData.categories.length > 0 ? AppData.categories[0].id : "";
+      }
+
+      saveLocalData(AppData);
+      syncDataToR2();
+      closeCategoryModal();
+      renderAll();
+      showToast("✓ 模块及关联数据已清空");
+    }
+
+    /* --- 书卷增删改 --- */
+    function openBookModal(bookId = null) {
+      const modal = document.getElementById("bookModalBackdrop");
+      const delBtn = document.getElementById("deleteBookBtn");
+      const sel = document.getElementById("bookCategorySelect");
+
+      sel.innerHTML = "";
+      AppData.categories.forEach(c => {
+        const opt = document.createElement("option");
+        opt.value = c.id;
+        opt.innerText = `${c.icon || ''} ${c.name}`;
+        sel.appendChild(opt);
+      });
+
+      if (bookId) {
+        const b = AppData.books.find(x => x.id === bookId);
+        document.getElementById("editBookId").value = b.id;
+        document.getElementById("bookNameInput").value = b.name;
+        sel.value = b.categoryId || activeCategoryId;
+        document.getElementById("bookModalTitle").innerText = "编辑书卷";
+        delBtn.style.display = "inline-flex";
+      } else {
+        document.getElementById("editBookId").value = "";
+        document.getElementById("bookNameInput").value = "";
+        sel.value = activeCategoryId;
+        document.getElementById("bookModalTitle").innerText = "新增书卷";
+        delBtn.style.display = "none";
+      }
+      modal.classList.add("active");
+    }
+
+    function closeBookModal() {
+      document.getElementById("bookModalBackdrop").classList.remove("active");
+    }
+
+    function editBook(id) { openBookModal(id); }
+
+    function saveBook() {
+      const id = document.getElementById("editBookId").value;
+      const name = document.getElementById("bookNameInput").value.trim();
+      const categoryId = document.getElementById("bookCategorySelect").value;
+
+      if (!name) { showToast("书卷名称不能为空", true); return; }
+
+      if (id) {
+        const b = AppData.books.find(x => x.id === id);
+        if (b) { b.name = name; b.categoryId = categoryId; }
+      } else {
+        AppData.books.push({ id: "b_" + Date.now(), name, categoryId, collapsed: false });
+      }
+
+      saveLocalData(AppData);
+      syncDataToR2();
+      closeBookModal();
+      activeCategoryId = categoryId;
+      renderAll();
+      showToast("✓ 书卷已保存并同步");
+    }
+
+    function deleteCurrentBook() {
+      const id = document.getElementById("editBookId").value;
+      if (!id) return;
+      const b = AppData.books.find(x => x.id === id);
+      const count = AppData.notes.filter(n => n.bookId === id).length;
+
+      if (!confirm(`⚠️ 确定要删除书卷【${b ? b.name : ''}】吗？\n\n该书卷下共有 ${count} 篇研读笔记，删除将一并彻底清空！`)) return;
+
+      AppData.books = AppData.books.filter(x => x.id !== id);
+      AppData.notes = AppData.notes.filter(n => n.bookId !== id);
+
+      saveLocalData(AppData);
+      syncDataToR2();
+      closeBookModal();
+      renderAll();
+      showToast("✓ 书卷及名下笔记已彻底删除");
+    }
+
+    /* --- 研读笔记增删改（两级联动 + 就地新建书卷） --- */
+    function populateNoteModalDropdowns(selectedCatId, targetBookId = null) {
+      const catSel = document.getElementById("noteCategorySelect");
+      const bookSel = document.getElementById("noteBookSelect");
+
+      catSel.innerHTML = "";
+      AppData.categories.forEach(c => {
+        const opt = document.createElement("option");
+        opt.value = c.id;
+        opt.innerText = `${c.icon || ''} ${c.name}`;
+        catSel.appendChild(opt);
+      });
+      catSel.value = selectedCatId;
+
+      bookSel.innerHTML = "";
+      const filteredBooks = AppData.books.filter(b => b.categoryId === selectedCatId);
+
+      if (filteredBooks.length === 0) {
+        const opt = document.createElement("option");
+        opt.value = "";
+        opt.innerText = "（当前模块暂无书卷，可在下方快速新建）";
+        bookSel.appendChild(opt);
+      } else {
+        filteredBooks.forEach(b => {
+          const opt = document.createElement("option");
+          opt.value = b.id;
+          opt.innerText = b.name;
+          bookSel.appendChild(opt);
+        });
+        if (targetBookId && filteredBooks.some(b => b.id === targetBookId)) {
+          bookSel.value = targetBookId;
+        } else {
+          bookSel.value = filteredBooks[0].id;
+        }
+      }
+    }
+
+    function handleNoteCategoryChange() {
+      const catId = document.getElementById("noteCategorySelect").value;
+      populateNoteModalDropdowns(catId);
+    }
+
+    function quickAddBookInModal() {
+      const input = document.getElementById("quickNewBookInput");
+      const name = input.value.trim();
+      const catId = document.getElementById("noteCategorySelect").value;
+
+      if (!name) { showToast("请输入新书卷名称", true); return; }
+
+      const newBook = { id: "b_" + Date.now(), name, categoryId: catId, collapsed: false };
+      AppData.books.push(newBook);
+      saveLocalData(AppData);
+      syncDataToR2();
+
+      input.value = "";
+      populateNoteModalDropdowns(catId, newBook.id);
+      renderAll();
+      showToast(`✓ 已成功新建书卷【${name}】`);
+    }
+
+    function openNoteModal(noteId = null) {
+      const modal = document.getElementById("noteModalBackdrop");
+      const delBtn = document.getElementById("deleteNoteBtn");
+
+      if (noteId) {
+        const n = AppData.notes.find(x => x.id === noteId);
+        const parentBook = AppData.books.find(b => b.id === n.bookId);
+        const catId = parentBook ? parentBook.categoryId : activeCategoryId;
+
+        document.getElementById("editNoteId").value = n.id;
+        populateNoteModalDropdowns(catId, n.bookId);
+        document.getElementById("noteDateInput").value = n.date || "2026/8/1";
+        document.getElementById("noteTitleInput").value = n.title;
+        document.getElementById("noteContentInput").value = n.content || "";
+        document.getElementById("noteModalTitle").innerText = "编辑研读记录";
+        delBtn.style.display = "inline-flex";
+      } else {
+        document.getElementById("editNoteId").value = "";
+        populateNoteModalDropdowns(activeCategoryId);
+        document.getElementById("noteDateInput").value = new Date().toISOString().split("T")[0].replace(/-/g, "/");
+        document.getElementById("noteTitleInput").value = "";
+        document.getElementById("noteContentInput").value = "";
+        document.getElementById("noteModalTitle").innerText = "新建研读记录";
+        delBtn.style.display = "none";
+      }
+      modal.classList.add("active");
+    }
+
+    function closeNoteModal() {
+      document.getElementById("noteModalBackdrop").classList.remove("active");
+    }
+
+    function editNote(id) { openNoteModal(id); }
+
+    function saveNote() {
+      const id = document.getElementById("editNoteId").value;
+      const bookId = document.getElementById("noteBookSelect").value;
+      const date = document.getElementById("noteDateInput").value.trim();
+      const title = document.getElementById("noteTitleInput").value.trim();
+      const content = document.getElementById("noteContentInput").value;
+
+      if (!bookId) {
+        showToast("请先选择或在辅助栏新建所属书卷", true);
+        return;
+      }
+      if (!title) { showToast("请输入研读标题", true); return; }
+
+      if (id) {
+        const n = AppData.notes.find(x => x.id === id);
+        if (n) { n.bookId = bookId; n.date = date; n.title = title; n.content = content; }
+      } else {
+        AppData.notes.unshift({ id: "n_" + Date.now(), bookId, date: date || "2026/8/1", title, content });
+      }
+
+      saveLocalData(AppData);
+      syncDataToR2();
+      closeNoteModal();
+      renderAccordion();
+      showToast("✓ 笔记已保存并直传 R2");
+    }
+
+    function deleteCurrentNote() {
+      const id = document.getElementById("editNoteId").value;
+      if (!id) return;
+      if (!confirm("确定要删除此篇研读笔记吗？")) return;
+
+      AppData.notes = AppData.notes.filter(n => n.id !== id);
+      saveLocalData(AppData);
+      syncDataToR2();
+      closeNoteModal();
+      renderAccordion();
+      showToast("✓ 笔记已删除");
+    }
+
+    /* --- 管理中心与前台直接改密 --- */
+    function openAuthModal() {
+      const modal = document.getElementById("authModalBackdrop");
+      if (adminToken) {
+        document.getElementById("authLoginBody").style.display = "none";
+        document.getElementById("authLoginFooter").style.display = "none";
+        document.getElementById("authManageBody").style.display = "block";
+      } else {
+        document.getElementById("authLoginBody").style.display = "block";
+        document.getElementById("authLoginFooter").style.display = "flex";
+        document.getElementById("authManageBody").style.display = "none";
+        document.getElementById("loginPwdInput").value = "";
+      }
+      modal.classList.add("active");
+    }
+
+    function closeAuthModal() {
+      document.getElementById("authModalBackdrop").classList.remove("active");
+    }
+
+    async function submitLogin() {
+      const pwd = document.getElementById("loginPwdInput").value;
+      if (!pwd) return;
+
+      try {
+        const res = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password: pwd })
+        });
+        const data = await res.json();
+        if (data.success) {
+          adminToken = data.token;
+          sessionStorage.setItem(AUTH_KEY, adminToken);
+          updateAdminUI();
+          closeAuthModal();
+          showToast("✓ 管理员权限已解锁");
+        } else {
+          showToast(data.error || "密码错误", true);
+        }
+      } catch (_) {
+        showToast("连接异常", true);
+      }
+    }
+
+    async function submitChangePassword() {
+      const oldPassword = document.getElementById("oldPwdInput").value;
+      const newPassword = document.getElementById("newPwdInput").value;
+
+      if (!oldPassword || !newPassword) {
+        showToast("请输入原密码和新密码", true);
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/auth/change_pwd", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ oldPassword, newPassword })
+        });
+        const data = await res.json();
+        if (data.success) {
+          adminToken = data.newPassword;
+          sessionStorage.setItem(AUTH_KEY, adminToken);
+          document.getElementById("oldPwdInput").value = "";
+          document.getElementById("newPwdInput").value = "";
+          closeAuthModal();
+          showToast("🎉 管理密码已成功修改并持久化存入 R2！");
+        } else {
+          showToast(`修改失败: ${data.error}`, true);
+        }
+      } catch (_) {
+        showToast("修改密码请求失败", true);
+      }
+    }
+
+    function logoutAdmin() {
+      adminToken = "";
+      sessionStorage.removeItem(AUTH_KEY);
+      updateAdminUI();
+      closeAuthModal();
+      showToast("已退出管理员模式");
+    }
+
+    function updateAdminUI() {
+      document.getElementById("authBtn").innerText = adminToken ? "🔓 管理中心" : "🔐 登录管理";
+      document.getElementById("addCatBtn").style.display = adminToken ? "inline-flex" : "none";
+      document.getElementById("addBookBtn").style.display = adminToken ? "inline-flex" : "none";
+      document.getElementById("addNoteBtn").style.display = adminToken ? "inline-flex" : "none";
+      renderCategoryTabs();
+      renderAccordion();
+    }
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        exitFullscreen();
+        closeCategoryModal();
+        closeBookModal();
+        closeNoteModal();
+        closeAuthModal();
+      }
+    });
+
+    function showToast(msg, isError = false) {
+      const toast = document.getElementById("toastMsg");
+      toast.innerText = msg;
+      toast.style.background = isError ? "rgba(220, 38, 38, 0.94)" : "rgba(31, 41, 55, 0.94)";
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2200);
+    }
+
+    function escapeHtml(str) {
+      return (str || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    // 启动初始化
+    renderAll();
+    initR2Sync();
+  </script>
+</body>
+</html>
