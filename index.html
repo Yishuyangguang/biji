@@ -15,8 +15,8 @@
       --primary-hover: #d97706;
       --primary-dark: #b45309;
       --bg-gradient: radial-gradient(circle at 10% 20%, #fffdf0 0%, #fef3c7 45%, #fde68a 100%);
-      --glass-bg: rgba(255, 255, 255, 0.72);
-      --glass-border: rgba(255, 255, 255, 0.85);
+      --glass-bg: rgba(255, 255, 255, 0.75);
+      --glass-border: rgba(255, 255, 255, 0.88);
       --glass-shadow: 0 16px 36px -6px rgba(245, 158, 11, 0.16), 0 4px 12px rgba(0, 0, 0, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.95);
       --text-main: #1f2937;
       --text-sub: #6b7280;
@@ -39,7 +39,7 @@
 
     .container { max-width: 1100px; margin: 0 auto; }
 
-    /* 💎 3D 顶部品牌 Header 导航条 */
+    /* 💎 3D 顶部品牌导航 */
     .top-header {
       display: flex;
       justify-content: space-between;
@@ -126,7 +126,7 @@
       color: #f59e0b;
     }
 
-    /* 💎 主研读工作区面板（3D 毛玻璃拟态） */
+    /* 💎 主研读工作区面板 */
     .main-panel {
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
@@ -357,11 +357,11 @@
     .modal-backdrop.active { opacity: 1; pointer-events: auto; }
 
     .modal-window {
-      background: rgba(255, 255, 255, 0.94);
+      background: rgba(255, 255, 255, 0.95);
       border: 1px solid rgba(255, 255, 255, 0.95);
       border-radius: 24px;
       width: 100%;
-      max-width: 740px;
+      max-width: 780px;
       max-height: 90vh;
       display: flex;
       flex-direction: column;
@@ -385,12 +385,12 @@
     .modal-title { font-size: 17px; font-weight: 800; color: #78350f; }
 
     .modal-body {
-      padding: 20px 22px;
+      padding: 18px 22px;
       overflow-y: auto;
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
 
     .form-group {
@@ -399,7 +399,7 @@
       gap: 6px;
     }
     .form-label { font-size: 13px; font-weight: 700; color: #374151; }
-    .form-input, .form-select, .form-textarea {
+    .form-input, .form-select {
       padding: 10px 14px;
       border: 1.5px solid #e5e7eb;
       border-radius: 12px;
@@ -410,15 +410,43 @@
       box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
       transition: all 0.18s;
     }
-    .form-input:focus, .form-select:focus, .form-textarea:focus {
+    .form-input:focus, .form-select:focus {
       border-color: var(--primary);
       box-shadow: 0 0 0 3.5px rgba(245, 158, 11, 0.18), inset 0 1px 2px rgba(0, 0, 0, 0.02);
       background: #ffffff;
     }
-    .form-textarea { min-height: 280px; line-height: 1.8; resize: vertical; }
+
+    /* 💎 富文本内容可编辑区（支持图文混排原样粘贴） */
+    .rich-editor-box {
+      min-height: 290px;
+      max-height: 480px;
+      overflow-y: auto;
+      padding: 14px 16px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 15px;
+      line-height: 1.85;
+      outline: none;
+      background: #ffffff;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.04);
+      color: #1f2937;
+      word-break: break-word;
+    }
+    .rich-editor-box:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3.5px rgba(245, 158, 11, 0.18), inset 0 1px 2px rgba(0, 0, 0, 0.02);
+    }
+    .rich-editor-box img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 8px 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      display: inline-block;
+    }
 
     .modal-footer {
-      padding: 14px 22px;
+      padding: 13px 22px;
       border-top: 1px solid #f3f4f6;
       display: flex;
       justify-content: space-between;
@@ -491,8 +519,24 @@
       line-height: 2.0;
       letter-spacing: 0.5px;
       color: #374151;
-      white-space: pre-wrap;
       word-break: break-word;
+    }
+    .fs-text-body img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin: 12px 0;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      display: block;
+    }
+    .fs-text-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+    }
+    .fs-text-body table, .fs-text-body th, .fs-text-body td {
+      border: 1px solid #fde68a;
+      padding: 8px 12px;
     }
 
     .fs-text-body.font-small { font-size: 15px; }
@@ -651,7 +695,7 @@
     </div>
   </div>
 
-  <!-- ================= 弹窗 3：新建/编辑研读笔记（两级联动 + 就地快速建卷） ================= -->
+  <!-- ================= 弹窗 3：新建/编辑研读笔记（富文本可编辑容器） ================= -->
   <div id="noteModalBackdrop" class="modal-backdrop">
     <div class="modal-window">
       <div class="modal-header">
@@ -688,9 +732,14 @@
           <label class="form-label">研读标题</label>
           <input type="text" id="noteTitleInput" class="form-input" placeholder="例如：太01 从耶稣的家谱看恩典君王" />
         </div>
+
         <div class="form-group">
-          <label class="form-label">研读正文 / 纲要心得</label>
-          <textarea id="noteContentInput" class="form-textarea" placeholder="在此输入研读正文、经文释义与心得体会..."></textarea>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <label class="form-label">研读正文 / 纲要心得（支持任意富文本、网页排版与图片直接粘贴）</label>
+            <span style="font-size:11.5px; color:#92400e;">💡 支持直接粘贴网页图文或截图</span>
+          </div>
+          <!-- 富文本可编辑容器 -->
+          <div id="noteContentInput" class="rich-editor-box" contenteditable="true"></div>
         </div>
       </div>
       <div class="modal-footer">
@@ -746,7 +795,7 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "SUN_YANDU_DATA_3D_V4";
+    const STORAGE_KEY = "SUN_YANDU_DATA_3D_RICH_V5";
     const AUTH_KEY = "SUN_YANDU_TOKEN";
 
     let adminToken = sessionStorage.getItem(AUTH_KEY) || "";
@@ -765,15 +814,15 @@
         { id: "b_matthew", name: "马太福音", categoryId: "cat_new", collapsed: false }
       ],
       notes: [
-        { id: "n_1", bookId: "b_matthew", title: "太07 三一神见证圣子为我们受洗尽诸般的义", date: "2026/8/1", content: "【经文要义】\n三一神在约旦河边同台见证耶稣基督的顺服与尽义。\n\n1. 圣子的顺服受洗；\n2. 圣灵的降临如鸽；\n3. 圣父的喜悦见证。" },
-        { id: "n_2", bookId: "b_matthew", title: "太09 天国的君王来到黑暗死荫之地传道 X S", date: "2026/8/1", content: "光照在黑暗里，黑暗却不接受光。天国君王的服事充满怜悯与医治。" },
-        { id: "n_3", bookId: "b_matthew", title: "太08 旷野中得胜试探的君王 END", date: "2026/8/1", content: "主耶稣以神的话语击退魔鬼的一切试探。" },
-        { id: "n_4", bookId: "b_matthew", title: "太06 要悔改信靠那位执行审判与拯救的耶稣", date: "2026/8/1", content: "施洗约翰的呼喊与天国临近的警告。" },
-        { id: "n_5", bookId: "b_matthew", title: "太05 在失败与苦难中成就救赎的耶稣", date: "2026/8/1", content: "神的主权掌管万有，即便在患难中祂的旨意依然成就。" },
-        { id: "n_6", bookId: "b_matthew", title: "太02 弥赛亚君王的真实身份", date: "2026/8/1", content: "大卫的子孙，亚伯拉罕的后裔，应许的拯救者。" },
-        { id: "n_7", bookId: "b_matthew", title: "太03 以顺服之信经历以马内利", date: "2026/8/1", content: "约瑟顺服主的使者，显明以马内利的同在。" },
-        { id: "n_8", bookId: "b_matthew", title: "太04 被神引导的外邦博士们朝拜荣耀君王", date: "2026/8/1", content: "东方博士献上黄金、乳香、没药，朝拜真正的万王之王。" },
-        { id: "n_9", bookId: "b_matthew", title: "太1 从耶稣的家谱看恩典君王", date: "2026/8/1", content: "家谱中显明神不离不弃的恩典与信实。" }
+        { id: "n_1", bookId: "b_matthew", title: "太07 三一神见证圣子为我们受洗尽诸般的义", date: "2026/8/1", content: "<p><b>【经文要义】</b><br>三一神在约旦河边同台见证耶稣基督的顺服与尽义。</p><ol><li><b>圣子的顺服受洗</b>；</li><li><b>圣灵的降临如鸽</b>；</li><li><b>圣父的喜悦见证</b>。</li></ol>" },
+        { id: "n_2", bookId: "b_matthew", title: "太09 天国的君王来到黑暗死荫之地传道 X S", date: "2026/8/1", content: "<p>光照在黑暗里，黑暗却不接受光。天国君王的服事充满怜悯与医治。</p>" },
+        { id: "n_3", bookId: "b_matthew", title: "太08 旷野中得胜试探的君王 END", date: "2026/8/1", content: "<p>主耶稣以神的话语击退魔鬼的一切试探。</p>" },
+        { id: "n_4", bookId: "b_matthew", title: "太06 要悔改信靠那位执行审判与拯救的耶稣", date: "2026/8/1", content: "<p>施洗约翰的呼喊与天国临近的警告。</p>" },
+        { id: "n_5", bookId: "b_matthew", title: "太05 在失败与苦难中成就救赎的耶稣", date: "2026/8/1", content: "<p>神的主权掌管万有，即便在患难中祂的旨意依然成就。</p>" },
+        { id: "n_6", bookId: "b_matthew", title: "太02 弥赛亚君王的真实身份", date: "2026/8/1", content: "<p>大卫的子孙，亚伯拉罕的后裔，应许的拯救者。</p>" },
+        { id: "n_7", bookId: "b_matthew", title: "太03 以顺服之信经历以马内利", date: "2026/8/1", content: "<p>约瑟顺服主的使者，显明以马内利的同在。</p>" },
+        { id: "n_8", bookId: "b_matthew", title: "太04 被神引导的外邦博士们朝拜荣耀君王", date: "2026/8/1", content: "<p>东方博士献上黄金、乳香、没药，朝拜真正的万王之王。</p>" },
+        { id: "n_9", bookId: "b_matthew", title: "太1 从耶稣的家谱看恩典君王", date: "2026/8/1", content: "<p>家谱中显明神不离不弃的恩典与信实。</p>" }
       ]
     };
 
@@ -975,7 +1024,7 @@
       renderAccordion(kw);
     }
 
-    /* --- 纯净全屏沉浸阅读（修复退出按钮与层级穿透） --- */
+    /* --- 纯净全屏沉浸阅读（支持富文本与图片渲染） --- */
     function openFullscreen(noteId) {
       const note = (AppData.notes || []).find(n => n.id === noteId);
       if (!note) return;
@@ -986,7 +1035,7 @@
       document.getElementById("fsTitle").innerText = note.title;
       document.getElementById("fsBookTag").innerText = `📖 ${book ? book.name : '研读'}`;
       document.getElementById("fsDateTag").innerText = note.date || '2026/8/1';
-      document.getElementById("fsContent").innerText = note.content || "（暂无正文内容）";
+      document.getElementById("fsContent").innerHTML = note.content || "（暂无正文内容）";
 
       document.getElementById("fsEditBtn").style.display = adminToken ? "inline-flex" : "none";
       document.getElementById("fullscreenReader").classList.add("active");
@@ -1160,7 +1209,7 @@
       showToast("✓ 书卷及名下笔记已彻底删除");
     }
 
-    /* --- 研读笔记增删改（两级联动 + 就地新建书卷） --- */
+    /* --- 研读笔记增删改（富文本编辑 + 截图/复制图片捕获） --- */
     function populateNoteModalDropdowns(selectedCatId, targetBookId = null) {
       const catSel = document.getElementById("noteCategorySelect");
       const bookSel = document.getElementById("noteBookSelect");
@@ -1223,6 +1272,7 @@
     function openNoteModal(noteId = null) {
       const modal = document.getElementById("noteModalBackdrop");
       const delBtn = document.getElementById("deleteNoteBtn");
+      const editor = document.getElementById("noteContentInput");
 
       if (noteId) {
         const n = AppData.notes.find(x => x.id === noteId);
@@ -1233,7 +1283,7 @@
         populateNoteModalDropdowns(catId, n.bookId);
         document.getElementById("noteDateInput").value = n.date || "2026/8/1";
         document.getElementById("noteTitleInput").value = n.title;
-        document.getElementById("noteContentInput").value = n.content || "";
+        editor.innerHTML = n.content || "";
         document.getElementById("noteModalTitle").innerText = "编辑研读记录";
         delBtn.style.display = "inline-flex";
       } else {
@@ -1241,7 +1291,7 @@
         populateNoteModalDropdowns(activeCategoryId);
         document.getElementById("noteDateInput").value = new Date().toISOString().split("T")[0].replace(/-/g, "/");
         document.getElementById("noteTitleInput").value = "";
-        document.getElementById("noteContentInput").value = "";
+        editor.innerHTML = "";
         document.getElementById("noteModalTitle").innerText = "新建研读记录";
         delBtn.style.display = "none";
       }
@@ -1259,7 +1309,7 @@
       const bookId = document.getElementById("noteBookSelect").value;
       const date = document.getElementById("noteDateInput").value.trim();
       const title = document.getElementById("noteTitleInput").value.trim();
-      const content = document.getElementById("noteContentInput").value;
+      const content = document.getElementById("noteContentInput").innerHTML;
 
       if (!bookId) {
         showToast("请先选择或在辅助栏新建所属书卷", true);
@@ -1293,6 +1343,24 @@
       renderAccordion();
       showToast("✓ 笔记已删除");
     }
+
+    /* --- 剪贴板图片直接粘贴捕获引擎 --- */
+    document.getElementById("noteContentInput").addEventListener("paste", function(e) {
+      const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+      for (let index in items) {
+        const item = items[index];
+        if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
+          e.preventDefault();
+          const blob = item.getAsFile();
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            document.execCommand("insertImage", false, event.target.result);
+          };
+          reader.readAsDataURL(blob);
+          return;
+        }
+      }
+    });
 
     /* --- 管理中心与前台直接改密 --- */
     function openAuthModal() {
