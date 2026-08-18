@@ -98,7 +98,7 @@ export default {
         return jsonResponse({ success: true, newPassword: newPwdStr });
       }
 
-      /* --- 研读笔记核心业务接口 --- */
+      /* --- 研读笔记业务接口（支持图文富文本存储） --- */
       if (url.pathname.startsWith("/api/yandu/")) {
         if (!bucket) return jsonResponse({ error: "未检测到绑定的 R2 存储桶" }, 500);
 
